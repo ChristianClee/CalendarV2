@@ -1,0 +1,18 @@
+.header {
+  height: 100px;
+  line-height: 100px;
+		&__logo {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 100px;
+
+		}
+
+		&__text {
+      font-size: 30px;
+		}
+
+		&__img {
+      font-size: 58px;
+		}
+}

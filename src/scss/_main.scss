@@ -1,0 +1,201 @@
+$cercleSize:50px;
+
+$boxHeight:60px;
+
+$marginTopGrid: 30px;
+
+%grid-Ul{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+%nav{
+  align-items: center; // delete after
+  border-top: 1px solid gray ;
+  border-bottom: 1px solid gray ;
+  height: 130px;
+  // width: 550px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  // border: 1px dotted black;
+}
+%activeCircle{
+  // border: 1px dotted black;
+  position: relative;
+  
+  & span{
+    position: absolute;
+    top: center;
+    left: center;
+    transform: translateX(-50%) translateY(-25%);
+    width: $cercleSize;
+    height: $cercleSize;
+    border-radius: 50%;
+    color: white;
+    line-height: $cercleSize;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  }
+}
+
+
+.main {
+  width: 550px;
+  margin: 0 auto;
+		&__nav {
+      display: flex;
+      justify-content: center;
+    
+		}
+
+		&__greed {
+
+		}
+
+		&__buttons {
+        // background-color:aqua;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100px;
+		}
+}
+
+.nav {
+  // background-color: antiquewhite;
+  @extend %nav;
+		&__weekUl {
+      @extend %grid-Ul;
+
+      & li{
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+      }
+		}
+
+		&__dayUl {
+       @extend %grid-Ul;
+      & li{
+        text-align: center;
+        font-size: 28px;
+        font-weight: 500;
+        &.active{
+          @extend %activeCircle;
+        }
+      }
+		}
+
+		&__monthBlock {
+      width: 100%;// 1
+      display: flex;// 1
+      justify-content: space-between;// 1
+      align-items: center;
+      // background-color: aquamarine; // delete
+      padding: 0 20px;
+      font-size: 20px;
+      font-weight: 600;
+		}
+
+		// &__button {
+    //   position: relative;
+    //   background-color: rgb(239, 88, 88);
+    //   height: 40px;
+    //   width: 40px;
+    //   text-align: center;
+    //   line-height: 50px;
+    //   border-radius: 50%;
+		// }
+
+		&__month {
+		}
+
+		&__right {
+		}
+}
+
+.greed {
+  position: relative;
+  width: 550px;
+  margin: 0 auto;
+  // background-color: aqua;
+  &__time{
+    position: absolute;
+    top: calc(-33px + $marginTopGrid) ;
+    left: -55px;
+    width:50px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(12, $boxHeight); 
+    grid-column-gap: 0px;
+    grid-row-gap: 8px;
+    & div{
+      // border: 1px solid black;
+      line-height: $boxHeight;
+      text-align: center;
+      color:gray;
+      font-size: 18px;
+      
+       // 1
+      
+    }
+  }
+  &__events{
+    padding:$marginTopGrid 5px $marginTopGrid 5px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(11, $boxHeight); // 1
+    grid-column-gap: 8px;
+    grid-row-gap: 8px;
+    & div{
+      border: 1px solid rgba(0, 0, 0, 0.284); // !!!
+      border-radius: 8px;
+    }
+  }
+  &__gorizontal{
+    @mixin gorizontLine($f){
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      top:$f;
+      left: 0;
+      background-color: gray;
+      z-index: 5;
+    };
+    $top: 26px;
+    @for $i from 1 through 12{
+      & :nth-child(#{$i}){
+      @include gorizontLine($top)
+    }
+    $top: calc($top + 68px);
+    } 
+  }
+  &__vertical{
+    $left:79px;
+    @mixin verticalLine($f){
+      position: absolute;
+      width: 1px;
+      height: 100%;
+      top:0;
+      left: $f;
+      background-color: gray;
+      z-index: 5;
+    };
+    @for $i from 1 through 6{
+      & :nth-child(#{$i}){
+      @include verticalLine($left)
+    }
+      $left:calc($left + 78.2px)
+    }
+    
+  }
+}
+
+
+
