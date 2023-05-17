@@ -1,4 +1,4 @@
-$cercleSize:50px;
+$cercleSize:80px;
 
 $boxHeight:60px;
 
@@ -11,18 +11,15 @@ $marginTopGrid: 30px;
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  
 }
 %nav{
   align-items: center; // delete after
-  border-top: 1px solid gray ;
-  border-bottom: 1px solid gray ;
-  height: 130px;
-  // width: 550px;
-  width: 100%;
+  height: 300px;
+  width: 600px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  // border: 1px dotted black;
 }
 %activeCircle{
   // border: 1px dotted black;
@@ -44,25 +41,48 @@ $marginTopGrid: 30px;
 
 
 .main {
-  width: 550px;
+  width: 600px;
   margin: 0 auto;
 		&__nav {
+      position: fixed;
+      top: 100px;
+      left: 0;
+      width: 100%;
+      height: 300px;
       display: flex;
       justify-content: center;
-    
+      background-color: rgb(218, 218, 218);
+      z-index: 2;
+      border-top: 1px solid gray ;
+      border-bottom: 1px solid gray ;
 		}
 
 		&__greed {
-
+      margin-top: 400px;
+      margin-bottom: 215px;
+      z-index: 1;
 		}
 
 		&__buttons {
-        // background-color:aqua;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        position: fixed;
+        bottom: 85px;
+        left: 0;
+        width: 100%;
+        background: rgb(218, 218, 218);
         height: 100px;
+
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
 		}
+    &__buttonsContainer{
+      width: 600px;
+      display: flex;
+      justify-content: space-between;
+      
+    }
 }
 
 .nav {
@@ -73,7 +93,7 @@ $marginTopGrid: 30px;
 
       & li{
         text-align: center;
-        font-size: 20px;
+        font-size: 30px;
         font-weight: 600;
       }
 		}
@@ -82,7 +102,7 @@ $marginTopGrid: 30px;
        @extend %grid-Ul;
       & li{
         text-align: center;
-        font-size: 28px;
+        font-size: 38px;
         font-weight: 500;
         &.active{
           @extend %activeCircle;
@@ -101,16 +121,6 @@ $marginTopGrid: 30px;
       font-weight: 600;
 		}
 
-		// &__button {
-    //   position: relative;
-    //   background-color: rgb(239, 88, 88);
-    //   height: 40px;
-    //   width: 40px;
-    //   text-align: center;
-    //   line-height: 50px;
-    //   border-radius: 50%;
-		// }
-
 		&__month {
 		}
 
@@ -120,10 +130,10 @@ $marginTopGrid: 30px;
 
 .greed {
   position: relative;
-  width: 550px;
+  width: 600px;
   margin: 0 auto;
-  // background-color: aqua;
-  &__time{
+
+  &__time-left{
     position: absolute;
     top: calc(-33px + $marginTopGrid) ;
     left: -55px;
@@ -145,16 +155,38 @@ $marginTopGrid: 30px;
       
     }
   }
+  &__time-right{
+    position: absolute;
+    top: calc(-33px + $marginTopGrid) ;
+    right: -55px;
+    width:50px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(12, $boxHeight); 
+    grid-column-gap: 0px;
+    grid-row-gap: 8px;
+    & div{
+      // border: 1px solid black;
+      line-height: $boxHeight;
+      text-align: center;
+      color:gray;
+      font-size: 18px;
+      
+       // 1
+      
+    }
+  } // todo ====================
   &__events{
-    padding:$marginTopGrid 5px $marginTopGrid 5px;
+    padding:$marginTopGrid 5px 0 5px;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(11, $boxHeight); // 1
+    grid-template-rows: repeat(23, $boxHeight); // 1
     grid-column-gap: 8px;
     grid-row-gap: 8px;
     & div{
-      border: 1px solid rgba(0, 0, 0, 0.284); // !!!
+      border: 1px solid rgba(0, 0, 0, 0.284); // !!!!!!!
       border-radius: 8px;
     }
   }
@@ -166,10 +198,10 @@ $marginTopGrid: 30px;
       top:$f;
       left: 0;
       background-color: gray;
-      z-index: 5;
+      z-index: 1;
     };
     $top: 26px;
-    @for $i from 1 through 12{
+    @for $i from 1 through 24{
       & :nth-child(#{$i}){
       @include gorizontLine($top)
     }
@@ -177,21 +209,21 @@ $marginTopGrid: 30px;
     } 
   }
   &__vertical{
-    $left:79px;
+    $left:85.4px;
     @mixin verticalLine($f){
       position: absolute;
       width: 1px;
-      height: 100%;
-      top:0;
+      height: 98.6%;
+      top:27px;
       left: $f;
       background-color: gray;
-      z-index: 5;
+      z-index: 1;
     };
     @for $i from 1 through 6{
       & :nth-child(#{$i}){
       @include verticalLine($left)
     }
-      $left:calc($left + 78.2px)
+      $left:calc($left + 85.7px)
     }
     
   }
