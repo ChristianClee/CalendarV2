@@ -8,7 +8,7 @@ interface LiProps {
 const Li: React.FC<LiProps> = ({children, currentDay}) => {
   return (
     <li className={currentDay === children? "active" : ""}>
-      <span>{children}</span>
+      <span>{children.slice(8,10)}</span>
     </li>
   );
 }

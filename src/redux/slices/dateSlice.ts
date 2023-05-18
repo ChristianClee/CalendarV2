@@ -2,134 +2,125 @@ import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from "../store";
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-type Months = "" | "January" | "February" | "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December"
+
+type Months =  "January" | "February" | "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December"
+type WeekFormat =  "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" |"Sunday" 
 
 interface Init {
-  currentYear: string;
-  currentMonth: Months;
-  currentWeekDay: string;
-  currentDay: string;
-  listOfWeekDays: string[] | []; //this is list of current week with current date of week, it is indexed, first argument after initialization will be on monday place, getWeek() - is initializator method
-  isBothMonthsInWeek: boolean; //it shows , is booth month in one week
-  bothMonthsInWeek: string[];
+  allMonths: Months[];
+  weekformat: WeekFormat[];
+  currentDate: string;              // example:  '2023-05-18 Thursday'
+  listOfWeekDays: string[] | [];   // example:  ['2023-05-18 Thursday', '2023-05-19 Friday', ... ]        this is list of current week with current date of week, it is indexed, first argument after initialization will be on monday place, getWeek() - is initializator method
+  currentPossition: number;
 }
 
-const initialState:Init = {
-  currentYear: "",
-  currentMonth: "",
-  currentWeekDay: "",
-  currentDay: "",
+const initialState: Init = {
+  allMonths: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  weekformat: [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+  currentDate: "",
   listOfWeekDays: [], 
-  isBothMonthsInWeek: false,
-  bothMonthsInWeek: [],
-  
+  currentPossition: 0,
 }
 export const dateSlice = createSlice({
   name: "date",
   initialState,
   reducers: {
     getCurrentDate(state) {
-      const month: Months[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-      const weekDays= "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" ")
       const date = new Date()
+      const _year = date.getFullYear()
+      const _month = date.getMonth()
+      const _day = date.getDate()
+      const currentPossition = state.currentPossition 
 
-      const currentYear = String(date.getFullYear())
-    
-      const currentMonth:Months = month[date.getMonth()]
+      const indexWeek = (new Date(_year,_month, _day + currentPossition).getDay() - 1 < 0) ? 6 : new Date(_year,_month, _day + currentPossition).getDay() - 1
+      
 
-      const currentWeekDay = weekDays[date.getDay()]
-      const currentDay = String(date.getDate())
-      // currentWeekDay and currentDay don't need additional verify and I can save their value
-      state.currentYear = currentYear
-      state.currentMonth = currentMonth
-      state.currentWeekDay = currentWeekDay
-      state.currentDay = currentDay
-     
+      state.currentDate = getDate(0) // !!!
+      console.log("state.currentDate ", state.currentDate)
+      
+      state.listOfWeekDays = getWeek(indexWeek)  // !!!
 
-//       ///////////////////////////////////////////////////////////
-//       // but currentYear currentMonth can enter in one week, and if they are in, I want to add both of month or years in  current Year or currentMonth
-//       const _year: number = date.getFullYear()
-//       const _month: number = date.getMonth()
-//       const _day: number = date.getDate()
-//       const _currentweekDay: number = (date.getDay() - 1 != -1) ? date.getDay() - 1 : 6 // transform to russia system of week
+      function getWeek(indexWeek: number): string[] {
+        // this function create a list and fills it the dates of week, indexWeek shows current day of week then the discribed logic determines oters days in a current week
+        let week = []
+        for (let i = indexWeek - 1; i >= 0; i--){
+          const num = (i + 1)*(-1)
+          week.push(getDate(num)) // these are previous days
+        } 
+        week.push(getDate(0)) // this is current day
 
-//       const _finishweekDay: number = (new Date(_year, _month + 1, 0).getDay() - 1 != -1 )? new Date(_year, _month + 1, 0).getDay() - 1 : 6
-//       // console.log(_currentweekDay, _finishweekDay)
-//       // console.log("SDf")
-         
-//       const lastDayOfThisMonth = new Date(_year, _month + 1, 0).getDate() 
-//       const lastDayOfPreviousMonth = new Date(_year, _month, 0).getDate() 
-// // console.log(lastDayOfThisMonth)
-//       // next 'if' block checks : are both month in one week or not?
-//       if (_day < 7) { // check previous month
-//         state.isBothMonthsInWeek = true
-//         if (month.indexOf(currentMonth) === 0) { // if index is 0 it means previous month must be December
-//           state.bothMonthsInWeek = ["December", currentMonth]
-//         } else {
-//           const previousMonth = month[month.indexOf(currentMonth) - 1]
-//           state.bothMonthsInWeek = [previousMonth, currentMonth]
-//         }
-//       } else if (_day + 7 > lastDayOfThisMonth && _finishweekDay - _currentweekDay === -1) { //check next month
-//         state.isBothMonthsInWeek = true
-//         if (month.indexOf(currentMonth) === 11) {
-//           state.bothMonthsInWeek = [currentMonth, "January"]
-//         } else {
-//           const nextMonth = month[month.indexOf(currentMonth) + 1]
-//           state.bothMonthsInWeek = [currentMonth, nextMonth]
-//         }
-//       } 
-//       // todo  I need to do bothYearsInWeek like month 
-//       //////////////////////////////////////////////////////////////////////////
-
-
-
-    },
-    getWeek(state) {
-      const weekDays = "Monday Tuesday Wednesday Thursday Friday Saturday Sunday".split(" ")
-      const date = new Date()
-      let currentWeek: number[] = []
-      const day = parseInt(state.currentDay) // current day
-      const weekDay = state.currentWeekDay   // current day of week
-
-      const year: number = date.getFullYear() 
-      const month: number = date.getMonth()
-      const lastDayOfThisMonth: number = new Date(year, month + 1, 0).getDate() 
-      const lastDayOfPreviousMonth: number = new Date(year, month, 0).getDate() 
-
-
-      const dayIndex = weekDays.indexOf(weekDay)
-      const daysAfterCurrentDay = 7 - (dayIndex + 1) // amount of days of week after current day 
-      const daysBeforeCurrentDay = 7 - (daysAfterCurrentDay + 1)
-
-
-      if (daysBeforeCurrentDay > 0) {      // if the 'days before' exists I whant to add them to currentWeek
-        for (let i = 1; i < daysBeforeCurrentDay + 1; i++){
-          const _day = day - i 
-          if (_day < 1) {                  // test on previous days of month
-            const _dayPreviousMonth = lastDayOfPreviousMonth - _day
-            currentWeek.push(_dayPreviousMonth)
-          } else {
-            currentWeek.push(_day) 
-          }
-        }
+        for (let i = indexWeek + 1; i < 7; i++){
+          const num = i - indexWeek
+          week.push(getDate(num)) //these are nexts days
+        } 
+        return week
       }
+      function getDate(_differentDays: number): string {
+        // this function create a string which contains year month days and day of week in '2023-05-18 Thursday' format. _differentDays parameter determines what day befor/after today  I want to get 
+        const weekDays = state.weekformat
+        const _year = new Date().getFullYear()
+        const _month = new Date().getMonth()
+        const _day = new Date().getDate()
+        const date = new Date(_year, _month, _day + _differentDays)
+        
+        const indexWeekDay:number = (date.getDay() - 1 < 0) ? 6 : date.getDay() - 1 // translate to Russian system of week, now first day of week starts from Monday
+        const numberCurrentMonth:string = String(date.getMonth()) // it shows current number of month
+        const numberCurrentDay:string = String(date.getDate())
 
-      currentWeek.push(day) // I add curent day to week
-
-      if (daysAfterCurrentDay > 0) {      // if the 'days after' exists I whant to add them to currentWeek
-        for (let i = 1; i < daysAfterCurrentDay + 1; i++){
-          const _day = day + i
-          if (_day > lastDayOfThisMonth) {
-            const _dayNextMonth = _day - lastDayOfThisMonth
-            currentWeek.push(_dayNextMonth)
-          } else {
-            currentWeek.push(_day)
-          }
-        }
+        const currentYear: string = String(date.getFullYear())
+        const currentWeekDay: string = weekDays[ indexWeekDay ]
+        const currentDay: string = (numberCurrentDay.length < 2) ?
+          "0" + numberCurrentDay : numberCurrentDay
+        const currentMonth: string = (numberCurrentMonth.length < 2) ?
+          "0" + numberCurrentMonth : numberCurrentMonth
+        
+        const currentDate = [currentYear, currentMonth, currentDay, currentWeekDay].join("-")
+        return currentDate
       }
-      state.listOfWeekDays = currentWeek.map(item => String(item))
+ 
     },
     goToRight(state) {
+      state.currentPossition += 7
+
+      function getWeek(indexWeek: number): string[] {
+        // this function create a list and fills it the dates of week, indexWeek shows current day of week then the discribed logic determines oters days in a current week
+        let week = []
+        for (let i = indexWeek - 1; i >= 0; i--){
+          const num = (i + 1)*(-1)
+          week.push(getDate(num)) // these are previous days
+        } 
+        week.push(getDate(0)) // this is current day
+
+        for (let i = indexWeek + 1; i < 7; i++){
+          const num = i - indexWeek
+          week.push(getDate(num)) //these are nexts days
+        } 
+        return week
+      }
+      function getDate(_differentDays: number): string {
+        // this function create a string which contains year month days and day of week in '2023-05-18 Thursday' format. _differentDays parameter determines what day befor/after today  I want to get 
+        const weekDays = state.weekformat
+        const _year = new Date().getFullYear()
+        const _month = new Date().getMonth()
+        const _day = new Date().getDate()
+        const date = new Date(_year, _month, _day + _differentDays)
+        
+        const indexWeekDay:number = (date.getDay() - 1 < 0) ? 6 : date.getDay() - 1 // translate to Russian system of week, now first day of week starts from Monday
+        const numberCurrentMonth:string = String(date.getMonth()) // it shows current number of month
+        const numberCurrentDay:string = String(date.getDate())
+
+        const currentYear: string = String(date.getFullYear())
+        const currentWeekDay: string = weekDays[ indexWeekDay ]
+        const currentDay: string = (numberCurrentDay.length < 2) ?
+          "0" + numberCurrentDay : numberCurrentDay
+        const currentMonth: string = (numberCurrentMonth.length < 2) ?
+          "0" + numberCurrentMonth : numberCurrentMonth
+        
+        const currentDate = [currentYear, currentMonth, currentDay, currentWeekDay].join("-")
+        return currentDate
+      }
+
+      console.log(state.currentPossition)
     }
 
   }
@@ -139,5 +130,5 @@ export default dateSlice.reducer
 export const selectDate = (state:RootState) => state.date
 export const {
   getCurrentDate,
-  getWeek,
+  goToRight,
 } = dateSlice.actions
