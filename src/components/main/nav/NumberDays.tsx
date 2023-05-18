@@ -1,30 +1,26 @@
 import React from 'react';
+import Li from './elements/Li';
+import { useSelector } from 'react-redux';
+import { selectDate } from '../../../redux/slices/dateSlice';
+
+const NumberDays: React.FC = () => {
+  const { currentDay, listOfWeekDays } = useSelector(selectDate)
+  // {listOfWeekDays:[17,18,19,20,21,22,23], }
+  // currentDay
+  // console.log('currentDay', currentDay)
+  // console.log('listOfWeekDays', listOfWeekDays)
 
 
-const NumberDays:React.FC = () => {
   return (
     <ul className="nav__dayUl">
-      <li>
-        <span>1</span>
-      </li>
-      <li className="active">
-        <span>2</span>
-      </li>
-      <li>
-        <span>3</span>
-      </li>
-      <li>
-        <span>4</span>
-      </li>
-      <li>
-        <span>5</span>
-      </li>
-      <li>
-        <span>6</span>
-      </li>
-      <li>
-        <span>7</span>
-      </li>
+      {listOfWeekDays.map((day, index) => (
+        <Li key={index} currentDay={currentDay}>
+          {day}
+        </Li>
+      ))}
+     
+      
+   
     </ul>
   );
 }
