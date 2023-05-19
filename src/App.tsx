@@ -11,17 +11,15 @@ function App() {
   const dispatch = useDispatch()
     useEffect(() => {
       dispatch(getCurrentDate())
-      // dispatch(getWeek())
     }, [currentPossition])
 
   return (
-    // <div className="App">
       <div className="wrapper">
         <Header/>
         <Main />
         <Footer/>
       </div>
-    // {/* </div> */}
+
   );
 }
 
