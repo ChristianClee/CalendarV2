@@ -5,6 +5,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 type Months =  "January" | "February" | "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December"
 type WeekFormat =  "Mond" | "Tues" | "Wedn" | "Thur" | "Frid" | "Satu" |"Sund" 
+export type DownLoadedWeek = { uniqKey: string; value: string[] | []}
 
 interface Init {
   allMonths: Months[];
@@ -12,7 +13,9 @@ interface Init {
   currentDate: string;              // example:  '2023-05-18 Thursday'
   listOfWeekDays: string[] | [];   // example:  ['2023-05-18 Thursday', '2023-05-19 Friday', ... ]        this is list of current week with current date of week, it is indexed, first argument after initialization will be on monday place, getWeek() - is initializator method
   currentPossition: number;
-  listOfAllWeeks: {data:string}[] ; // ????????????? this list keeps all downloaded weeks, I don't know what should I apply type to it
+  listOfAllWeeks: DownLoadedWeek[]; // ????????????? this list keeps all downloaded weeks, I don't know what should I apply type to it
+  temporatyStorageWeek: DownLoadedWeek;
+  lastActivDate: string;            // it show last active date
 }
 
 const initialState: Init = {
@@ -22,6 +25,8 @@ const initialState: Init = {
   listOfWeekDays: [], 
   currentPossition: 0,
   listOfAllWeeks: [],
+  temporatyStorageWeek: { uniqKey: "", value: [] },
+  lastActivDate: "",
 }
 export const dateSlice = createSlice({
   name: "date",
@@ -80,16 +85,21 @@ export const dateSlice = createSlice({
     },
     goToRight(state) {
       state.currentPossition += 7
+      state.listOfAllWeeks = [...state.listOfAllWeeks, state.temporatyStorageWeek ]
     },
     goToLeft(state) {
       state.currentPossition -= 7
+      state.listOfAllWeeks = [...state.listOfAllWeeks, state.temporatyStorageWeek ]
     },
-    checkPreviousLists() {
-      
+    addToTemporatyStorage(state, action:PayloadAction<DownLoadedWeek>) {
+      state.temporatyStorageWeek = action.payload
     },
-    add(state, action:PayloadAction<{data:string}>) {
-      state.listOfAllWeeks = [...state.listOfAllWeeks, action.payload ]
-    },
+    // add(state, action:PayloadAction<DownLoadedWeek>) {
+    //   state.listOfAllWeeks = [...state.listOfAllWeeks, action.payload ]
+    // },
+    changeActivDate(state, action:PayloadAction<string>) {
+      state.lastActivDate = action.payload
+    }
 
 
   }
@@ -101,5 +111,7 @@ export const {
   getCurrentDate,
   goToRight,
   goToLeft,
-  add,
+  // add,
+  addToTemporatyStorage,
+  changeActivDate,
 } = dateSlice.actions

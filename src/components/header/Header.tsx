@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from './elements/Button';
 
 
 
@@ -7,7 +8,7 @@ const Header:React.FC = () => {
     <header className="header">
       <div className="header__logo">
         <div className="header__text">Interview Calendar</div>
-        <div className="header__img">+</div>
+        <Button/>
       </div>
     </header>
   );

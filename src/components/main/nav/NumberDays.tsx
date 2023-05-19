@@ -5,14 +5,14 @@ import { selectDate } from '../../../redux/slices/dateSlice';
 
 const NumberDays: React.FC = () => {
   
-  const { currentDate, listOfWeekDays } = useSelector(selectDate)
+  const { currentDate, listOfWeekDays, lastActivDate } = useSelector(selectDate)
   // console.log("currentDate ", currentDate.slice(8,10))
   // console.log("listOfWeekDays ", listOfWeekDays)
 
   return (
     <ul className="nav__dayUl">
       {listOfWeekDays.map((day) => (
-        <Li key={day} currentDay={currentDate}>
+        <Li key={day} currentDay={currentDate} lastActivDate={lastActivDate}>
           {day}
         </Li>
       ))}
