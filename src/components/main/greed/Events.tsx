@@ -18,8 +18,8 @@ const Events: React.FC = () => {
       if (listOfAllWeeks.length === 0) {   // it addes new week immedeately if AllWeeks's list is empty
         const value = createList(listOfWeekDays)
         const week = { "uniqKey": listOfWeekDays[0], "value": value }
-        dispatch(addToTemporatyStorage( week ))
-       
+        dispatch(addToTemporatyStorage(week))
+
         // console.log("listOfAllWeeks ", listOfAllWeeks)
       }
       // @ts-ignore   I want to use 'findLast' method because it is razor then 'find' in this case, but TS doesn't allow me do it
@@ -35,15 +35,15 @@ const Events: React.FC = () => {
         //@ts-ignore    here won't be undefind , I checked it above #1 in 'else if' block
         dispatch(addToTemporatyStorage(week))
         // setGredList(week)
-        
+
       }
     }
 
   }, [listOfWeekDays])
 
-  function createList(listOfWeekDays: string[]): string[] {
+  function createList(listOfWeekDays: string[]): string[] { // this function create new list 
     let innerSquares = []
-    for (let i = 1; i < 24; i++) { // this double cycle generates array whis unique value, each value has '2023-05-18-Thursday-01'
+    for (let i = 1; i < 24; i++) { // this double cycle generates array with unique value, each value has '2023-05-18-Thur-01'
       for (let j = 0; j < 7; j++) {
         const timeNumber = (String(i).length < 2) ? "0" + String(i) + "-f" : String(i) + "-f"
         innerSquares.push(`${listOfWeekDays[j]}-${timeNumber}`)
@@ -51,18 +51,18 @@ const Events: React.FC = () => {
     }
     return innerSquares
   }
-  function makeTrack(index: number, active: string) {
+  function makeTrack(index: number, active: string) { // this finction change conditional of current square after tauching 
     const clon = JSON.parse(JSON.stringify(temporatyStorageWeek))
     clon.value[index] = active
     dispatch(addToTemporatyStorage(clon)) // it saves changes it to temporaty Storage
     dispatch(changeActivDate(active.slice(0, 15))) // it change active date
   }
-  
+
   return (
-    
+
     <div className="greed__events">
-      { Boolean(temporatyStorageWeek.value.length) &&
-    
+      {Boolean(temporatyStorageWeek.value.length) &&
+
         temporatyStorageWeek.value.map((item, index: number) => <InnerSquare key={item} value={item} func={makeTrack} index={index} />)
       }
     </div>

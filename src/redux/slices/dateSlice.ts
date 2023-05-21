@@ -7,6 +7,10 @@ type Months =  "January" | "February" | "March" | "April" | "May" | "June" | "Ju
 type WeekFormat =  "Mond" | "Tues" | "Wedn" | "Thur" | "Frid" | "Satu" |"Sund" 
 export type DownLoadedWeek = { uniqKey: string; value: string[] | []}
 
+
+
+// type 
+
 interface Init {
   allMonths: Months[];
   weekformat: WeekFormat[];
@@ -17,6 +21,7 @@ interface Init {
   listOfAllWeeks: DownLoadedWeek[]; // ????????????? this list keeps all downloaded weeks, I don't know what should I apply type to it
   temporatyStorageWeek: DownLoadedWeek;
   lastActivDate: string;            // it show last active date
+
 }
 
 const initialState: Init = {
@@ -102,12 +107,15 @@ export const dateSlice = createSlice({
       state.currentPossition -= 7
       state.listOfAllWeeks = [...state.listOfAllWeeks, state.temporatyStorageWeek ]
     },
+    goToday(state) {
+      state.currentPossition = 0
+    },
+    goToMessageDate(state) {
+      
+    },
     addToTemporatyStorage(state, action:PayloadAction<DownLoadedWeek>) {
       state.temporatyStorageWeek = action.payload
     },
-    // add(state, action:PayloadAction<DownLoadedWeek>) {
-    //   state.listOfAllWeeks = [...state.listOfAllWeeks, action.payload ]
-    // },
     changeActivDate(state, action:PayloadAction<string>) {
       state.lastActivDate = action.payload
     }
@@ -120,6 +128,8 @@ export const {
   getCurrentDate,
   goToRight,
   goToLeft,
+  goToday,
+  goToMessageDate,
   addToTemporatyStorage,
   changeActivDate,
   getDayTime,

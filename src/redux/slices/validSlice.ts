@@ -14,6 +14,7 @@ interface Init {
   errorDays: boolean;
   errorMinutes: boolean;
   dateUser: string; // it is final  user date after input
+  dateUserStatus: boolean; 
 }
 
 
@@ -28,7 +29,8 @@ const initialState = {
   errorDays: true,
   errorHours: true,
   errorMinutes: true,
-  dateUser: ""
+  dateUser: "",
+  dateUserStatus: false,
 
 }
 
@@ -123,8 +125,10 @@ export const validSlice = createSlice({
         minutes = (minutes.length < 2) ? "0" + minutes : minutes
         
         const result = `${years}-${months}-${days}-${hours}:${minutes}`
+        state.dateUserStatus = true
         state.dateUser = result
-        console.log(result)
+        
+        // console.log(result)
       }
     }
   }
