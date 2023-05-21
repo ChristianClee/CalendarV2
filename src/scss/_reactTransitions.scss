@@ -1,0 +1,180 @@
+.messageWindow-enter {
+
+  opacity: 0;
+  transform: scale(0.8);
+}
+.messageWindow-enter-active {
+  opacity: 0.3;
+  transform: scale(1);
+  transition: opacity 700ms, transform 700ms;
+}
+
+.messageWindow-exit {
+  // opacity: 1;
+  transform: scale(1);
+}
+.messageWindow-exit-active {
+  // opacity: 0;
+  transform: scale(0.8);
+  transition:  transform 800ms;
+}
+
+
+
+//===================================================
+// messageText
+.messageText-enter {
+  animation: show-messageText 700ms forwards;
+}
+.messageText-enter-active {
+  
+}
+.messageText-exit {
+  animation: show-messageText-out 900ms forwards;
+}
+.messageText-exit-active {
+  // opacity: 0;
+  // transform: scale(0.9);
+  // transition: opacity 300ms, transform 300ms;
+}
+
+@keyframes show-messageText{
+  0%{
+    transform: translateY(1000px);
+  }
+  50%{
+    transform: translateY(-60px);
+  }
+  80%{
+    transform: translateY(10px);
+  }  
+
+  100%{
+    transform: translateX(0px);
+
+  }
+}
+@keyframes show-messageText-out{
+  0%{
+    transform: translateX(0px);
+  }
+  20%{
+    transform: translateY(80px);
+  }
+  70%{
+    
+    transform: translateY(-100px);
+  }  
+
+  100%{
+    
+    transform: translateY(1000px);
+
+  }
+}
+
+// ==============================================
+//messageInput
+.messageInput-enter {
+  animation: show-messageInput 800ms forwards;
+}
+.messageInput-enter-active {
+
+}
+.messageInput-exit {
+  animation: show-messageInput-out 700ms forwards;
+  
+}
+.messageInput-exit-active {
+  
+}
+@keyframes show-messageInput{
+  0%{
+    transform: translateY(1000px);
+ 
+  }
+  30%{
+    transform: translateY(1200px);
+
+  }
+   80%{
+    transform: translateY(-20px);
+
+  }
+  100%{
+    transform: translateX(0px);
+
+  }
+}
+@keyframes show-messageInput-out{
+  0%{
+    transform: translateX(0px);
+  }
+  30%{
+    transform: translateY(60px);
+  }
+  80%{
+     transform: translateY(-60px);
+  }
+  100%{
+    transform: translateY(1000px);
+  }
+}
+// =================================================
+// messageButton
+.messageButtons-enter {
+  animation: show-messageButtons 900ms forwards;
+}
+.messageButtons-enter-active {
+
+}
+.messageButtons-exit {
+  animation: show-messageButtons-out 700ms forwards;
+}
+.messageButtons-exit-active {
+
+}
+@keyframes show-messageButtons{
+  0%{
+    transform: translateY(1000px);
+ 
+  }
+  30%{
+    transform: translateY(1200px);
+
+  }
+   80%{
+    transform: translateY(-20px);
+
+  }
+  100%{
+    transform: translateX(0px);
+
+  }
+}
+@keyframes show-messageButtons-out{
+  0%{
+    transform: translateX(0px);
+  }
+  30%{
+    transform: translateY(40px);
+  }
+   70%{
+    transform: translateY(-40px);
+  }
+  100%{
+    
+    transform: translateY(1000px);
+  }
+  
+}
+// ============================================
+
+.blackFonMessage-exit {
+  opacity: 1;
+  
+}
+.blackFonMessage-exit-active {
+  opacity: 0.8;
+  transition: opacity 700ms;
+}

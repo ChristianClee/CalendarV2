@@ -1,0 +1,140 @@
+$widthMessage: 600px;
+$heightMessage: 500px;
+
+$widthEventMessageComponentText: 550px;
+$heightEventMessageComponentText: 100px;
+
+$widthEventMessageComponentInput: 650px;;
+$heightEventMessageComponentInput: 100px;
+
+$widthEventMessageComponentButtons: 550px;;
+$heightEventMessageComponentButtons: 100px;
+
+.eventMessage {
+  position: fixed;
+  left: calc(50% - $widthMessage/2);
+  top: calc(32% - $heightMessage/2);
+  width: $widthMessage;
+  height: $heightMessage;
+  border-radius: 20px;
+  border: 3px solid black;
+  
+  background-color: rgba(255, 255, 255, 0.207);
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px 1px;
+  z-index: 50;
+
+
+}
+.eventMessageComponent-text{
+  position: fixed;
+  left: calc(50% - $widthEventMessageComponentText/2);
+  top: calc(25% - $heightEventMessageComponentText/2);
+  width: $widthEventMessageComponentText;
+  height: $heightEventMessageComponentText;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  // background-color: red;
+  border: 3px solid black;
+  border-radius: 30px;
+  z-index: 51;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 100px;
+  letter-spacing: 6px;
+  color: rgb(88, 18, 18);
+  background-color: #666666;
+}
+.eventMessageComponent-form{
+  // background-color: #66666668;
+  position: fixed;
+  left: calc(50% - $widthEventMessageComponentInput/2);
+  top: calc(34% - $heightEventMessageComponentInput/2);
+  width: $widthEventMessageComponentInput;
+  height: $heightEventMessageComponentInput;
+  z-index: 51;
+  border-radius: 30px;
+  border: 3px solid black;
+  padding: 0 50px;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  &__input{
+    background-color: inherit;
+    width: 75px;
+    background-color: inherit;
+    font-size: 50px;
+    color: white;
+    text-align: center;
+
+  }
+  & .active{
+    border: 3px solid rgb(107, 19, 19);
+  }
+   
+  &>*:nth-child(1){
+    width: 140px;
+    position: relative;
+
+    &>*:first-child{
+      width: 100%;
+      text-align: right;
+    }
+  }
+  &>*:nth-child(5){
+    margin-right: 50px;
+    // background-color: azure;
+  }
+  &>*:nth-child(6){
+   margin-right: 5px;
+  //  background-color: aliceblue;
+}
+  &>*:nth-child(8){
+   margin-left: 5px;
+}
+//   & input::-webkit-outer-spin-button,
+//   & input::-webkit-inner-spin-button {
+//     /* display: none; <- Crashes Chrome on hover */
+//     -webkit-appearance: none;
+//     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+// }
+}
+.eventMessageComponent-buttons{
+  position: fixed;
+    left: calc(50% - $widthEventMessageComponentButtons/2);
+    top: calc(43% - $heightEventMessageComponentButtons/2);
+    width: $widthEventMessageComponentButtons;
+    height: $heightEventMessageComponentButtons;
+    z-index: 51;
+    border-radius: 30px;
+    // border: 3px solid black;
+    // background-color: aqua;
+    display: flex;
+    justify-content: space-between;
+
+  &__button{
+    background-color: inherit;
+    border-radius: 30px;
+    width: 250px;
+    height: 100%;
+    border: 3px solid black;
+    font-weight: 600;
+    font-size: 30px;
+    text-align: center;
+    line-height: 100px;
+  }
+    
+}
+.blackFonMessage{ // background fon for every pop-up message
+  position: fixed;
+  width: 100%;
+  min-height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.689);
+  z-index: 48;
+  
+}

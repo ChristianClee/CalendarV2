@@ -10,6 +10,7 @@ export type DownLoadedWeek = { uniqKey: string; value: string[] | []}
 interface Init {
   allMonths: Months[];
   weekformat: WeekFormat[];
+  currentDayTime: string;              // 00:00
   currentDate: string;              // example:  '2023-05-18 Thursday'
   listOfWeekDays: string[] | [];   // example:  ['2023-05-18 Thursday', '2023-05-19 Friday', ... ]        this is list of current week with current date of week, it is indexed, first argument after initialization will be on monday place, getWeek() - is initializator method
   currentPossition: number;
@@ -21,6 +22,7 @@ interface Init {
 const initialState: Init = {
   allMonths: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
   weekformat: [ "Mond", "Tues", "Wedn", "Thur", "Frid", "Satu", "Sund"],
+  currentDayTime: "",
   currentDate: "",
   listOfWeekDays: [], 
   currentPossition: 0,
@@ -83,6 +85,15 @@ export const dateSlice = createSlice({
         return currentDate // 2023-04-18-Thursday
       }
     },
+    getDayTime(state) {
+      const _hours = String(new Date().getHours())
+      const _minutes = String(new Date().getMinutes())
+      const hours = (_hours.length < 2) ? "0" + _hours : _hours
+      const minutes = (_minutes.length < 2) ? "0" + _minutes : _minutes
+      const time = `${hours}:${minutes}`
+      state.currentDayTime = time
+
+    },
     goToRight(state) {
       state.currentPossition += 7
       state.listOfAllWeeks = [...state.listOfAllWeeks, state.temporatyStorageWeek ]
@@ -100,8 +111,6 @@ export const dateSlice = createSlice({
     changeActivDate(state, action:PayloadAction<string>) {
       state.lastActivDate = action.payload
     }
-
-
   }
 })
 
@@ -111,7 +120,7 @@ export const {
   getCurrentDate,
   goToRight,
   goToLeft,
-  // add,
   addToTemporatyStorage,
   changeActivDate,
+  getDayTime,
 } = dateSlice.actions
