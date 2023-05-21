@@ -1,8 +1,9 @@
 import React from 'react';
 import Button from './Button';
-import { checkDate, selectValid } from '../../../redux/slices/validSlice';
-import { useSelector } from 'react-redux';
-import {hideEventMessage} from '../../../redux/slices/popUpSlice'
+
+
+import { hideEventMessage } from '../../../redux/slices/popUpSlice'
+import ButtonAssign from './ButtonAssign';
 
 
 
@@ -11,8 +12,9 @@ const Buttons: React.FC = () => {
   return (
     <div className='eventMessageComponent-buttons'>
       <Button text={"cancel"} func={hideEventMessage} />
-      <Button text={"assign"} func={checkDate} />
-      
+      {/* <Button text={"assign"} func={checkDate} /> */}
+      <ButtonAssign />
+
     </div>
   );
 }

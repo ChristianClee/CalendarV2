@@ -1,23 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useGetDay } from '../../../ulilits/time'
 import Input from './input/Input'
-import { useSelector } from 'react-redux';
-import { selectValid } from '../../../redux/slices/validSlice'
+import { useSelector, useDispatch } from 'react-redux';
+import { selectDate } from '../../../redux/slices/dateSlice'
 import {
   saveYears,
   saveMonths,
   saveDays,
   saveHours,
   saveMinutes,
-} from '../../../redux/slices/validSlice'
+} from '../../../redux/slices/dateSlice'
 
 
 
 const Form: React.FC = () => {
+  const dispatch = useDispatch()
   const { year, month, day } = useGetDay()
-  const { errorYears, errorMonths, errorDays, errorHours, errorMinutes } = useSelector(selectValid)
-  // console.log(errorMinutes)
+  const { validDate } = useSelector(selectDate)
+  const {
+    errorYears,
+    errorMonths,
+    errorDays,
+    errorHours,
+    errorMinutes
+  } = validDate
 
+  // useEffect(() => { 
+  //   dispatch(saveYears())
+  //   // dispatch()
+  //   // dispatch()
+  //   // dispatch()
+  //   // dispatch()
+  // }, [
+  //   errorYears,
+  //   errorMonths,
+  //   errorDays,
+  //   errorHours,
+  //   errorMinutes])
 
   return (
 

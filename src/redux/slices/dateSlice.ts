@@ -8,8 +8,27 @@ type WeekFormat =  "Mond" | "Tues" | "Wedn" | "Thur" | "Frid" | "Satu" |"Sund"
 export type DownLoadedWeek = { uniqKey: string; value: string[] | []}
 
 
-
-// type 
+type UserDateType = {
+  years: number;
+  months: number,
+  days: number,
+  hours: number,
+  minutes: number,
+}
+type ValidDateType = {
+  years: string;
+  months: string;
+  days: string;
+  hours: string;
+  minutes: string;
+  errorYears: boolean;
+  errorMonths: boolean;
+  errorHours: boolean;
+  errorDays: boolean;
+  errorMinutes: boolean;
+  dateUser: UserDateType; // it is final  user date after input
+  dateUserStatus: boolean; 
+}
 
 interface Init {
   allMonths: Months[];
@@ -21,7 +40,7 @@ interface Init {
   listOfAllWeeks: DownLoadedWeek[]; // ????????????? this list keeps all downloaded weeks, I don't know what should I apply type to it
   temporatyStorageWeek: DownLoadedWeek;
   lastActivDate: string;            // it show last active date
-
+  validDate: ValidDateType;
 }
 
 const initialState: Init = {
@@ -34,6 +53,26 @@ const initialState: Init = {
   listOfAllWeeks: [],
   temporatyStorageWeek: { uniqKey: "", value: [] },
   lastActivDate: "",
+  validDate: {
+    years: "",
+    months: "",
+    days: "",
+    hours: "",
+    minutes: "",
+    errorYears: true, // before putting on button "assigh" error is disable 
+    errorMonths: true,
+    errorDays: true,
+    errorHours: true,
+    errorMinutes: true,
+    dateUser: {
+      years: 0,
+      months: 0,
+      days: 0,
+      hours: 0,
+      minutes: 0,
+    },
+    dateUserStatus: false, 
+  }
 }
 export const dateSlice = createSlice({
   name: "date",
@@ -111,13 +150,171 @@ export const dateSlice = createSlice({
       state.currentPossition = 0
     },
     goToMessageDate(state) {
+      if (state.validDate.dateUserStatus) {
+        const dateUser = state.validDate.dateUser // {years: 2023, months: 5, days: 21, hours: 1, minutes: 1}
+
+        // @ts-ignore
+        const differentDays = ((new Date(dateUser.years, dateUser.months, dateUser.days) - new Date()) /1000/60/60/24)
+        console.log(differentDays)
+
+        state.validDate.dateUserStatus = false
+      }
       
+      
+
     },
     addToTemporatyStorage(state, action:PayloadAction<DownLoadedWeek>) {
       state.temporatyStorageWeek = action.payload
     },
     changeActivDate(state, action:PayloadAction<string>) {
       state.lastActivDate = action.payload
+    },
+    // =====================
+    saveYears(state, action: PayloadAction<string>) {
+      const currentYear = new Date().getFullYear()
+      const years = action.payload
+      state.validDate.years = years
+      
+      if (years.length === 0) {
+        state.validDate.errorYears = false
+        return
+      }
+
+
+      state.validDate.errorYears = (currentYear <= parseInt(years) && parseInt(years) < currentYear + 2) ?   true : false 
+    },
+    saveMonths(state, action: PayloadAction<string>) {
+      const date = new Date()
+      const months = action.payload
+      state.validDate.months = months
+
+      if (months.length === 0) {
+        state.validDate.errorMonths = false
+        return
+      }
+
+      
+      const _years: boolean = parseInt(state.validDate.years) > date.getFullYear() 
+      if (_years) {
+        state.validDate.errorMonths = (0 < parseInt(months) && parseInt(months) < 13) ?   true : false 
+      } else {
+        const currentMonth = new Date().getMonth()
+        state.validDate.errorMonths = (currentMonth < parseInt(months) && parseInt(months) < 13) ?   true : false 
+      }
+
+      
+    },
+    saveDays(state, action: PayloadAction<string>) {
+      const date = new Date()
+      const days = action.payload
+      const years = state.validDate.years
+      const months = state.validDate.months
+
+      const lastDay = new Date(parseInt(years), parseInt(months), 0).getDate()
+      
+
+   
+      state.validDate.days = days
+
+      if (days.length === 0) {
+        state.validDate.errorDays = false
+        return
+      }
+
+      const _years:boolean = parseInt(state.validDate.years) > date.getFullYear() 
+      const _months: boolean = (parseInt(state.validDate.months) - 1) > date.getMonth()
+      const _checkDate: boolean = _years || _months
+      if (_checkDate) {
+        state.validDate.errorDays = (parseInt(days) <= lastDay) ?   true : false 
+      } else {
+        const currentDay = new Date().getDate()
+        state.validDate.errorDays = (currentDay<=parseInt(days) && parseInt(days) <= lastDay) ?   true : false 
+      }
+
+    },
+    saveHours(state, action: PayloadAction<string>) {
+      const date = new Date()
+
+      const hours = action.payload
+      state.validDate.hours = hours
+
+      if (hours.length === 0) {
+        state.validDate.errorHours = false
+        return
+      }
+
+      const _years:boolean = parseInt(state.validDate.years) > date.getFullYear() 
+      const _months:boolean = (parseInt(state.validDate.months) -1) > date.getMonth() 
+      const _days:boolean = parseInt(state.validDate.days) > date.getDate() 
+      const _checkDate:boolean = _years || _months || _days
+      
+      if (_checkDate) {
+        state.validDate.errorHours = (parseInt(hours) < 24) ?   true : false 
+      } else {
+        const currentHours = new Date().getHours()
+        state.validDate.errorHours = (currentHours <= parseInt(hours) && parseInt(hours) < 24) ?   true : false 
+      }
+
+    },
+    saveMinutes(state, action: PayloadAction<string>) {
+      const date = new Date()
+      const minutes = action.payload
+      state.validDate.minutes = minutes
+
+      
+
+      if (minutes.length === 0) {
+        state.validDate.errorMinutes = false
+        return
+      }
+
+      const _years:boolean = parseInt(state.validDate.years) > date.getFullYear() 
+      const _months:boolean = (parseInt(state.validDate.months) -1) > date.getMonth() 
+      const _days:boolean = parseInt(state.validDate.days) > date.getDate() 
+      const _hours:boolean = parseInt(state.validDate.hours) > date.getHours() 
+      const _checkDate:boolean = _years || _months || _days || _hours
+
+      if (_checkDate) {
+        state.validDate.errorMinutes = (parseInt(minutes) < 60) ?   true : false 
+      } else {
+        const currentMinutes = new Date().getMinutes()
+        state.validDate.errorMinutes = (currentMinutes <= parseInt(minutes) && parseInt(minutes) < 60) ?   true : false 
+      }
+      
+    },
+    checkDate(state) {
+      let years = state.validDate.years
+      let months = state.validDate.months
+      let days = state.validDate.days
+      let hours = state.validDate.hours
+      let minutes = state.validDate.minutes
+
+      const lastDay = new Date(parseInt(years), parseInt(months) , 0).getDate()
+      state.validDate.errorDays = (parseInt(days) <= lastDay) ?   true : false            // additional check for a days in month, it needs for it because if user will change month date after change 'days' auto correct won't work
+          
+      const errorYears = state.validDate.errorYears
+      const errorMonths = state.validDate.errorMonths
+      const errorDays = state.validDate.errorDays
+      const errorHours = state.validDate.errorHours
+      const errorMinutes = state.validDate.errorMinutes
+
+      const resultError = errorYears && errorMonths && errorDays && errorHours && errorMinutes
+
+      if (resultError) {
+        state.validDate.dateUserStatus = true
+
+        const result = {
+          years: parseInt(years),
+          months: parseInt(months) - 1, // i want to translate value of month to new Date().getMonth() 
+          days: parseInt(days),
+          hours: parseInt(hours),
+          minutes: parseInt(minutes),
+        }
+        state.validDate.dateUser = result
+        
+
+        console.log(result)
+      }
     }
   }
 })
@@ -133,4 +330,11 @@ export const {
   addToTemporatyStorage,
   changeActivDate,
   getDayTime,
+  //===============
+  saveYears,
+  saveMonths,
+  saveDays,
+  saveHours,
+  saveMinutes,
+  checkDate,
 } = dateSlice.actions
