@@ -8,6 +8,7 @@ interface Init{
 
 const initialState = {
   eventMessage: false,
+  descriptMessage: true,
 }
 
 export const popUpSlice = createSlice({
@@ -20,7 +21,9 @@ export const popUpSlice = createSlice({
     hideEventMessage(state) {
       state.eventMessage = false
     },
-
+    hideDescriptMessage(state) {
+      state.descriptMessage = false
+    },
   }
 })
 
@@ -29,4 +32,5 @@ export const selectPopUp = (state: RootState) => state.popUp
 export const {
   showEventMessage,
   hideEventMessage,
+  hideDescriptMessage,
 } = popUpSlice.actions

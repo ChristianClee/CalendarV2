@@ -42,7 +42,7 @@ const Greed: React.FC = () => {
   }, [listOfWeekDays])
   function createList(listOfWeekDays: string[]): string[] { // this function create new list 
     let innerSquares = []
-    for (let i = 1; i < 24; i++) { // this double cycle generates array with unique value, each value has '2023-05-18-Thur-01'
+    for (let i = 0; i < 24; i++) { // this double cycle generates array with unique value, each value has '2023-05-18-Thur-01'
       for (let j = 0; j < 7; j++) {
         const timeNumber = (String(i).length < 2) ? "0" + String(i) + "-f" : String(i) + "-f"
         // console.log(`${listOfWeekDays[j]}-${timeNumber}`)

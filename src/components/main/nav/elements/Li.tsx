@@ -13,7 +13,7 @@ const Li: React.FC<LiProps> = ({ children, currentDay, lastActivDate }) => {
   const activeLastDate = (lastActivDate === children) ? "active2" : ""
   return (
     <li className={[activeCurrent, activeLastDate].join(" ")}>
-      <span>{children.slice(8,10)}</span>
+      <span>{children.slice(8, 10)}</span>
     </li>
   );
 }

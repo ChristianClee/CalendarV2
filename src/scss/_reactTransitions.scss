@@ -1,5 +1,4 @@
 .messageWindow-enter {
-
   opacity: 0;
   transform: scale(0.8);
 }
@@ -16,10 +15,8 @@
 .messageWindow-exit-active {
   // opacity: 0;
   transform: scale(0.8);
-  transition:  transform 800ms;
+  transition: transform 800ms;
 }
-
-
 
 //===================================================
 // messageText
@@ -27,7 +24,6 @@
   animation: show-messageText 700ms forwards;
 }
 .messageText-enter-active {
-  
 }
 .messageText-exit {
   animation: show-messageText-out 900ms forwards;
@@ -38,38 +34,34 @@
   // transition: opacity 300ms, transform 300ms;
 }
 
-@keyframes show-messageText{
-  0%{
+@keyframes show-messageText {
+  0% {
     transform: translateY(1000px);
   }
-  50%{
+  50% {
     transform: translateY(-60px);
   }
-  80%{
+  80% {
     transform: translateY(10px);
-  }  
+  }
 
-  100%{
+  100% {
     transform: translateX(0px);
-
   }
 }
-@keyframes show-messageText-out{
-  0%{
+@keyframes show-messageText-out {
+  0% {
     transform: translateX(0px);
   }
-  20%{
+  20% {
     transform: translateY(80px);
   }
-  70%{
-    
+  70% {
     transform: translateY(-100px);
-  }  
+  }
 
-  100%{
-    
+  100% {
     transform: translateY(1000px);
-
   }
 }
 
@@ -79,44 +71,37 @@
   animation: show-messageInput 800ms forwards;
 }
 .messageInput-enter-active {
-
 }
 .messageInput-exit {
   animation: show-messageInput-out 700ms forwards;
-  
 }
 .messageInput-exit-active {
-  
 }
-@keyframes show-messageInput{
-  0%{
+@keyframes show-messageInput {
+  0% {
     transform: translateY(1000px);
- 
   }
-  30%{
+  30% {
     transform: translateY(1200px);
-
   }
-   80%{
+  80% {
     transform: translateY(-20px);
-
   }
-  100%{
+  100% {
     transform: translateX(0px);
-
   }
 }
-@keyframes show-messageInput-out{
-  0%{
+@keyframes show-messageInput-out {
+  0% {
     transform: translateX(0px);
   }
-  30%{
+  30% {
     transform: translateY(60px);
   }
-  80%{
-     transform: translateY(-60px);
+  80% {
+    transform: translateY(-60px);
   }
-  100%{
+  100% {
     transform: translateY(1000px);
   }
 }
@@ -126,55 +111,113 @@
   animation: show-messageButtons 900ms forwards;
 }
 .messageButtons-enter-active {
-
 }
 .messageButtons-exit {
   animation: show-messageButtons-out 700ms forwards;
 }
 .messageButtons-exit-active {
-
 }
-@keyframes show-messageButtons{
-  0%{
+@keyframes show-messageButtons {
+  0% {
     transform: translateY(1000px);
- 
   }
-  30%{
+  30% {
     transform: translateY(1200px);
-
   }
-   80%{
+  80% {
     transform: translateY(-20px);
-
   }
-  100%{
+  100% {
     transform: translateX(0px);
-
   }
 }
-@keyframes show-messageButtons-out{
-  0%{
+@keyframes show-messageButtons-out {
+  0% {
     transform: translateX(0px);
   }
-  30%{
+  30% {
     transform: translateY(40px);
   }
-   70%{
+  70% {
     transform: translateY(-40px);
   }
-  100%{
-    
+  100% {
     transform: translateY(1000px);
   }
-  
 }
 // ============================================
 
 .blackFonMessage-exit {
   opacity: 1;
-  
 }
 .blackFonMessage-exit-active {
   opacity: 0.8;
   transition: opacity 700ms;
+}
+
+// ==============================================
+
+.descriptMessage-enter {
+  // animation: show-messageButtons 1100ms forwards;
+}
+.descriptMessage-enter-active {
+}
+.descriptMessage-exit {
+  animation: show-descriptMessage-out 1100ms forwards;
+}
+.descriptMessage-exit-active {
+}
+@keyframes show-descriptMessage-out {
+  0% {
+    transform: translateX(0px);
+  }
+  40% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(500px);
+    opacity: 0.1;
+  }
+}
+// ===============================================
+// buttonsDelete
+.buttonsDelete-enter {
+  animation: show-messageButtons 800ms forwards;
+}
+.buttonsDelete-enter-active {
+}
+.buttonsDelete-exit {
+  animation: show-messageButtons-out 800ms forwards;
+}
+.buttonsDelete-exit-active {
+}
+@keyframes show-messageButtons {
+  0% {
+    transform: translateY(200px);
+  }
+  30% {
+    transform: translateY(250px);
+  }
+  80% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+@keyframes show-messageButtons-out {
+  0% {
+    transform: translateX(0px);
+  }
+  30% {
+    transform: translateY(40px);
+  }
+  60% {
+    transform: translateY(-40px);
+  }
+  100% {
+    transform: translateY(120px);
+  }
 }

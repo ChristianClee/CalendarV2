@@ -4,6 +4,7 @@ import React from 'react';
 const Time: React.FC<{ position: string }> = ({ position }) => {
   return (
     <div className={position}>
+      <div>00:00</div>
       <div>01:00</div>
       <div>02:00</div>
       <div>03:00</div>

@@ -167,6 +167,7 @@ export const dateSlice = createSlice({
 
        
         // console.log( state.temporatyStorageWeek.value.includes("2023-04-29-Mond-01-f"))
+        
         // @ts-ignore
         let differentDays:number = ((new Date(dateUser.years, dateUser.months, dateUser.days)
           // @ts-ignore
@@ -186,6 +187,17 @@ export const dateSlice = createSlice({
       
       
 
+    },
+    zerroUserDate(state) {
+      state.validDate.dateUser = {
+        years: 0,
+        months: 0,
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        strDate: "",
+        strTime: "",
+      }
     },
 
     addToTemporatyStorage(state, action: PayloadAction<DownLoadedWeek>) {
@@ -473,6 +485,7 @@ export const {
   checkHours,
   checkMinutes,
   //=============
+  zerroUserDate
 
 
 } = dateSlice.actions

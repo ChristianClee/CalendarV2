@@ -7,25 +7,27 @@ import Text from './components/popUpMessages/eventMessageElements/Text'
 import Form from './components/popUpMessages/eventMessageElements/Form';
 import Buttons from './components/popUpMessages/eventMessageElements/Buttons';
 //@ts-ignore
-import {CSSTransition} from 'react-transition-group'; 
+import { CSSTransition } from 'react-transition-group';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentDate, getDayTime, selectDate } from './redux/slices/dateSlice';
-import { selectPopUp, showEventMessage  } from './redux/slices/popUpSlice';
+import { selectPopUp, showEventMessage } from './redux/slices/popUpSlice';
 import BlackFonMessage from './components/popUpMessages/BlackFonMessage';
+import Description from './components/popUpMessages/Description';
 
 
 
 function App() {
   const dispatch = useDispatch()
   const { currentPossition } = useSelector(selectDate)
-  const { eventMessage } = useSelector(selectPopUp)
+  const { eventMessage, descriptMessage } = useSelector(selectPopUp)
 
-  
-    useEffect(() => {
-      dispatch(getCurrentDate())
-      dispatch(getDayTime())
-    }, [currentPossition])
+
+
+  useEffect(() => {
+    dispatch(getCurrentDate())
+    dispatch(getDayTime())
+  }, [currentPossition])
 
   return (
     <>
@@ -36,19 +38,37 @@ function App() {
       </div>
 
 
+      <CSSTransition
+        // in={descriptMessage}
+        in={true}
+        timeout={1200}
+        classNames="descriptMessage"
+        mountOnEnter={true}
+        unmountOnExit={true}
+      >
+        <Description />
+      </CSSTransition>
+
+
+
+
+
+
+
+
 
       <CSSTransition
         in={eventMessage}
-        timeout={900}
+        timeout={800}
         classNames="blackFonMessage"
         mountOnEnter={true}
         unmountOnExit={true}
       >
         <BlackFonMessage />
       </CSSTransition>
-      
 
-      <CSSTransition 
+
+      <CSSTransition
         in={eventMessage}
         timeout={900}
         classNames="messageWindow"
@@ -75,7 +95,7 @@ function App() {
         mountOnEnter={true}
         unmountOnExit={true}
       >
-        <Form/>
+        <Form />
       </CSSTransition>
 
       <CSSTransition
@@ -89,7 +109,7 @@ function App() {
       </CSSTransition>
 
     </>
-      
+
   );
 }
 
