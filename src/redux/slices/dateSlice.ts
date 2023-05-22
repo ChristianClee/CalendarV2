@@ -14,6 +14,8 @@ type UserDateType = {
   days: number,
   hours: number,
   minutes: number,
+  strDate: string,
+  strTime: string,
 }
 type ValidDateType = {
   years: string;
@@ -28,7 +30,6 @@ type ValidDateType = {
   errorMinutes: boolean;
   dateUser: UserDateType; // it is final  user date after input
   dateUserStatus: boolean; 
-  newDate: number; // it is a marker useEffect is watching for it, if it is changed useEffect in eventes triggers its inner fanction
 }
 
 interface Init {
@@ -65,13 +66,15 @@ const initialState: Init = {
     errorDays: true,
     errorHours: true,
     errorMinutes: true,
-    newDate: 0,
+
     dateUser: { // it shows user date additional date from popUp message
       years: 0,
       months: 0,
       days: 0,
       hours: 0,
       minutes: 0,
+      strDate: "",
+      strTime: "",
     },
     dateUserStatus: false, 
   }
@@ -168,23 +171,23 @@ export const dateSlice = createSlice({
         let differentDays:number = ((new Date(dateUser.years, dateUser.months, dateUser.days)
           // @ts-ignore
           - new Date(_years, _month, _day)) / 1000 / 60 / 60 / 24)
-        differentDays = Math.floor(differentDays/7) 
-        if (differentDays > 0) {
+        differentDays = Math.floor(differentDays / 7) 
+        if (differentDays >= 0) {
           differentDays *= 7
-          state.currentPossition = differentDays
           state.listOfAllWeeks = [...state.listOfAllWeeks, state.temporatyStorageWeek]
+          state.currentPossition = differentDays
+          
+ 
         }
         // console.log(state.validDate.newDate)
-        state.validDate.newDate = state.validDate.newDate + 1 // look type description 
+ 
         state.validDate.dateUserStatus = false // don't allow create new request without success "checkDate()"
       }
       
       
 
     },
-    addTracker(state) {
-      console.log("temporatyStorageWeek",state.temporatyStorageWeek)
-    },
+
     addToTemporatyStorage(state, action: PayloadAction<DownLoadedWeek>) {
       // console.log(action.payload)
       state.temporatyStorageWeek = action.payload
@@ -404,6 +407,7 @@ export const dateSlice = createSlice({
       let hours = state.validDate.hours
       let minutes = state.validDate.minutes
 
+      
       const lastDay = new Date(parseInt(years), parseInt(months) , 0).getDate()
       state.validDate.errorDays = (parseInt(days) <= lastDay) ?   true : false            // additional check for a days in month, it needs for it because if user will change month date after change 'days' auto correct won't work
           
@@ -412,6 +416,14 @@ export const dateSlice = createSlice({
       const errorDays = state.validDate.errorDays
       const errorHours = state.validDate.errorHours
       const errorMinutes = state.validDate.errorMinutes
+
+      let strMonth = String(parseInt(months) - 1)
+      strMonth = (strMonth.length < 2) ? "0" + strMonth : strMonth
+      const strDays = (days.length < 2) ? "0" + days : days
+      const strHours = (hours.length < 2) ? "0" + hours : hours
+      const strMinutes = (minutes.length < 2) ? "0" + minutes : minutes
+      
+
 
       const resultError = errorYears && errorMonths && errorDays && errorHours && errorMinutes
 
@@ -424,6 +436,8 @@ export const dateSlice = createSlice({
           days: parseInt(days),
           hours: parseInt(hours),
           minutes: parseInt(minutes),
+          strDate: `${years}-${strMonth}-${strDays}`,
+          strTime: `${strHours}:${strMinutes}`,
         }
         state.validDate.dateUser = result
         
@@ -459,6 +473,6 @@ export const {
   checkHours,
   checkMinutes,
   //=============
-  addTracker
+
 
 } = dateSlice.actions

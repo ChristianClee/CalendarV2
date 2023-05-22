@@ -1,5 +1,5 @@
 import React from 'react';
-import { checkDate, goToMessageDate, addTracker, selectDate } from '../../../redux/slices/dateSlice';
+import { checkDate, goToMessageDate, selectDate } from '../../../redux/slices/dateSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
