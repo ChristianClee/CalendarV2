@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectDate } from '../../../redux/slices/dateSlice';
 
 const NumberDays: React.FC = () => {
-  
+
   const { currentDate, listOfWeekDays, lastActivDate } = useSelector(selectDate)
   // console.log("currentDate ", currentDate.slice(8,10))
   // console.log("listOfWeekDays ", listOfWeekDays)

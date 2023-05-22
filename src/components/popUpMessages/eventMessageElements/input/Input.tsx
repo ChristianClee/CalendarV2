@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import {
+  checkYears,
+  checkMonth,
+  checkDays,
+  checkHours,
+  checkMinutes,
+} from '../../../../redux/slices/dateSlice'
 
 type ChangeEvent = React.ChangeEvent<HTMLInputElement>
 type InputProps = {
@@ -20,6 +27,13 @@ const Input: React.FC<InputProps> = ({ limit, valueText, saveValue, errorStatus 
   useEffect(() => {
     //@ts-ignore I don't know how to typing dispatch
     dispatch(saveValue(value))// save it to redux validSlice
+
+    dispatch(checkYears())
+    dispatch(checkMonth())
+    dispatch(checkDays())
+    dispatch(checkHours())
+    dispatch(checkMinutes())
+
   }, [value])
 
   const onchange = (event: ChangeEvent) => {

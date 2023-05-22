@@ -1,5 +1,5 @@
 import React from 'react';
-import { checkDate, goToMessageDate, selectDate } from '../../../redux/slices/dateSlice';
+import { checkDate, goToMessageDate, addTracker, selectDate } from '../../../redux/slices/dateSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -15,6 +15,7 @@ const ButtonAssign: React.FC = () => {
   function onclick(event: React.MouseEvent) {
     dispatch(checkDate())
     dispatch(goToMessageDate())
+    // dispatch(addTracker())
   }
 
   return (

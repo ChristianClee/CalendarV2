@@ -28,6 +28,7 @@ type ValidDateType = {
   errorMinutes: boolean;
   dateUser: UserDateType; // it is final  user date after input
   dateUserStatus: boolean; 
+  newDate: number; // it is a marker useEffect is watching for it, if it is changed useEffect in eventes triggers its inner fanction
 }
 
 interface Init {
@@ -64,7 +65,8 @@ const initialState: Init = {
     errorDays: true,
     errorHours: true,
     errorMinutes: true,
-    dateUser: {
+    newDate: 0,
+    dateUser: { // it shows user date additional date from popUp message
       years: 0,
       months: 0,
       days: 0,
@@ -148,22 +150,43 @@ export const dateSlice = createSlice({
     },
     goToday(state) {
       state.currentPossition = 0
+      state.listOfAllWeeks = [...state.listOfAllWeeks, state.temporatyStorageWeek ]
     },
     goToMessageDate(state) {
       if (state.validDate.dateUserStatus) {
         const dateUser = state.validDate.dateUser // {years: 2023, months: 5, days: 21, hours: 1, minutes: 1}
+        const currentDate = state.currentDate
+        const _years:number = parseInt(currentDate.slice(0,4)) 
+        const _month:number = parseInt(currentDate.slice(5,7))
+        const _day: number = parseInt(currentDate.slice(8, 10))
+  
 
+
+       
+        // console.log( state.temporatyStorageWeek.value.includes("2023-04-29-Mond-01-f"))
         // @ts-ignore
-        const differentDays = ((new Date(dateUser.years, dateUser.months, dateUser.days) - new Date()) /1000/60/60/24)
-        console.log(differentDays)
-
-        state.validDate.dateUserStatus = false
+        let differentDays:number = ((new Date(dateUser.years, dateUser.months, dateUser.days)
+          // @ts-ignore
+          - new Date(_years, _month, _day)) / 1000 / 60 / 60 / 24)
+        differentDays = Math.floor(differentDays/7) 
+        if (differentDays > 0) {
+          differentDays *= 7
+          state.currentPossition = differentDays
+          state.listOfAllWeeks = [...state.listOfAllWeeks, state.temporatyStorageWeek]
+        }
+        // console.log(state.validDate.newDate)
+        state.validDate.newDate = state.validDate.newDate + 1 // look type description 
+        state.validDate.dateUserStatus = false // don't allow create new request without success "checkDate()"
       }
       
       
 
     },
-    addToTemporatyStorage(state, action:PayloadAction<DownLoadedWeek>) {
+    addTracker(state) {
+      console.log("temporatyStorageWeek",state.temporatyStorageWeek)
+    },
+    addToTemporatyStorage(state, action: PayloadAction<DownLoadedWeek>) {
+      // console.log(action.payload)
       state.temporatyStorageWeek = action.payload
     },
     changeActivDate(state, action:PayloadAction<string>) {
@@ -171,29 +194,54 @@ export const dateSlice = createSlice({
     },
     // =====================
     saveYears(state, action: PayloadAction<string>) {
-      const currentYear = new Date().getFullYear()
+      // const currentYear = new Date().getFullYear()
       const years = action.payload
       state.validDate.years = years
       
+      // if (years.length === 0) {
+      //   state.validDate.errorYears = false
+      //   return
+      // }
+
+      // state.validDate.errorYears = (currentYear <= parseInt(years) && parseInt(years) < currentYear + 2) ?   true : false 
+    },
+    checkYears(state) {
+      const currentYear = new Date().getFullYear()
+      const years = state.validDate.years
+        
       if (years.length === 0) {
         state.validDate.errorYears = false
         return
       }
-
-
       state.validDate.errorYears = (currentYear <= parseInt(years) && parseInt(years) < currentYear + 2) ?   true : false 
     },
     saveMonths(state, action: PayloadAction<string>) {
-      const date = new Date()
+      // const date = new Date()
       const months = action.payload
       state.validDate.months = months
 
+      // if (months.length === 0) {
+      //   state.validDate.errorMonths = false
+      //   return
+      // }
+
+      // const _years: boolean = parseInt(state.validDate.years) > date.getFullYear() 
+      // if (_years) {
+      //   state.validDate.errorMonths = (0 < parseInt(months) && parseInt(months) < 13) ?   true : false 
+      // } else {
+      //   const currentMonth = new Date().getMonth()
+      //   state.validDate.errorMonths = (currentMonth < parseInt(months) && parseInt(months) < 13) ?   true : false 
+      // }
+  
+    },
+    checkMonth(state) {
+      const date = new Date()
+      const months = state.validDate.months
       if (months.length === 0) {
         state.validDate.errorMonths = false
         return
       }
 
-      
       const _years: boolean = parseInt(state.validDate.years) > date.getFullYear() 
       if (_years) {
         state.validDate.errorMonths = (0 < parseInt(months) && parseInt(months) < 13) ?   true : false 
@@ -201,21 +249,45 @@ export const dateSlice = createSlice({
         const currentMonth = new Date().getMonth()
         state.validDate.errorMonths = (currentMonth < parseInt(months) && parseInt(months) < 13) ?   true : false 
       }
-
-      
     },
     saveDays(state, action: PayloadAction<string>) {
-      const date = new Date()
+      // const date = new Date()
       const days = action.payload
+      state.validDate.days = days
+      // const years = state.validDate.years
+      // const months = state.validDate.months
+
+      // const lastDay = new Date(parseInt(years), parseInt(months), 0).getDate()
+      
+
+   
+      
+
+      // if (days.length === 0) {
+      //   state.validDate.errorDays = false
+      //   return
+      // }
+
+      // const _years:boolean = parseInt(state.validDate.years) > date.getFullYear() 
+      // const _months: boolean = (parseInt(state.validDate.months) - 1) > date.getMonth()
+      // const _checkDate: boolean = _years || _months
+      // if (_checkDate) {
+      //   state.validDate.errorDays = (parseInt(days) <= lastDay) ?   true : false 
+      // } else {
+      //   const currentDay = new Date().getDate()
+      //   state.validDate.errorDays = (currentDay<=parseInt(days) && parseInt(days) <= lastDay) ?   true : false 
+      // }
+
+    },
+    checkDays(state) {
+      const date = new Date()
+
+      const days = state.validDate.days
       const years = state.validDate.years
       const months = state.validDate.months
 
       const lastDay = new Date(parseInt(years), parseInt(months), 0).getDate()
       
-
-   
-      state.validDate.days = days
-
       if (days.length === 0) {
         state.validDate.errorDays = false
         return
@@ -230,13 +302,34 @@ export const dateSlice = createSlice({
         const currentDay = new Date().getDate()
         state.validDate.errorDays = (currentDay<=parseInt(days) && parseInt(days) <= lastDay) ?   true : false 
       }
-
     },
     saveHours(state, action: PayloadAction<string>) {
-      const date = new Date()
+      // const date = new Date()
 
       const hours = action.payload
       state.validDate.hours = hours
+
+      // if (hours.length === 0) {
+      //   state.validDate.errorHours = false
+      //   return
+      // }
+
+      // const _years:boolean = parseInt(state.validDate.years) > date.getFullYear() 
+      // const _months:boolean = (parseInt(state.validDate.months) -1) > date.getMonth() 
+      // const _days:boolean = parseInt(state.validDate.days) > date.getDate() 
+      // const _checkDate:boolean = _years || _months || _days
+      
+      // if (_checkDate) {
+      //   state.validDate.errorHours = (parseInt(hours) < 24) ?   true : false 
+      // } else {
+      //   const currentHours = new Date().getHours()
+      //   state.validDate.errorHours = (currentHours <= parseInt(hours) && parseInt(hours) < 24) ?   true : false 
+      // }
+
+    },
+    checkHours(state) {
+      const date = new Date()
+      const hours = state.validDate.hours
 
       if (hours.length === 0) {
         state.validDate.errorHours = false
@@ -257,11 +350,34 @@ export const dateSlice = createSlice({
 
     },
     saveMinutes(state, action: PayloadAction<string>) {
-      const date = new Date()
+      // const date = new Date()
       const minutes = action.payload
       state.validDate.minutes = minutes
 
       
+
+      // if (minutes.length === 0) {
+      //   state.validDate.errorMinutes = false
+      //   return
+      // }
+
+      // const _years:boolean = parseInt(state.validDate.years) > date.getFullYear() 
+      // const _months:boolean = (parseInt(state.validDate.months) -1) > date.getMonth() 
+      // const _days:boolean = parseInt(state.validDate.days) > date.getDate() 
+      // const _hours:boolean = parseInt(state.validDate.hours) > date.getHours() 
+      // const _checkDate:boolean = _years || _months || _days || _hours
+
+      // if (_checkDate) {
+      //   state.validDate.errorMinutes = (parseInt(minutes) < 60) ?   true : false 
+      // } else {
+      //   const currentMinutes = new Date().getMinutes()
+      //   state.validDate.errorMinutes = (currentMinutes <= parseInt(minutes) && parseInt(minutes) < 60) ?   true : false 
+      // }
+      
+    },
+    checkMinutes(state) {
+      const date = new Date()
+      const minutes = state.validDate.minutes
 
       if (minutes.length === 0) {
         state.validDate.errorMinutes = false
@@ -280,7 +396,6 @@ export const dateSlice = createSlice({
         const currentMinutes = new Date().getMinutes()
         state.validDate.errorMinutes = (currentMinutes <= parseInt(minutes) && parseInt(minutes) < 60) ?   true : false 
       }
-      
     },
     checkDate(state) {
       let years = state.validDate.years
@@ -313,7 +428,7 @@ export const dateSlice = createSlice({
         state.validDate.dateUser = result
         
 
-        console.log(result)
+        // console.log(result)
       }
     }
   }
@@ -337,4 +452,13 @@ export const {
   saveHours,
   saveMinutes,
   checkDate,
+  // ============
+  checkYears,
+  checkMonth,
+  checkDays,
+  checkHours,
+  checkMinutes,
+  //=============
+  addTracker
+
 } = dateSlice.actions

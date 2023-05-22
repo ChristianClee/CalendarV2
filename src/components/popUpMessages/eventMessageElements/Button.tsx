@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
+
 type ButtonType = {
   text: string;
   func?: () => void;
