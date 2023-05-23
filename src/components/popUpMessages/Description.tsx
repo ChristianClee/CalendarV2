@@ -28,9 +28,9 @@ const Description: React.FC = () => {
           <div className ="description__inner-body">
             <div className="description__title">Календарь</div>
             
-            <div className="description__subtitle">тестовая работа</div>
+            {/* <div className="description__subtitle">тестовая работа</div> */}
             <div className="description__text">
-              эта работа предназначенна для мобильной версии,
+              Эта работа предназначенна для мобильной версии,
               откройте её через телефон или уменьшить
               ширину окна браузера
             </div>
@@ -47,7 +47,8 @@ const Description: React.FC = () => {
             </ul>
           </div>
           <div className="description__text">
-            работа не окончательна, находится в разработке и постоянно дополняется
+            Это текушее состояние приложения, оно находится в разработке и переодически
+            дополняется
           </div>
           
 
