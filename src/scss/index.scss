@@ -3,12 +3,15 @@
 body{
   font-family: "Montserrat";
 }
+#root{
+  // overflow: hidden;
+  width: inherit;
+  height: inherit;
+}
+
 .wrapper{
   width: 740px;
   margin: 0 auto;
-  border: 2px dashed black;
-
-  // background-color: aqua;
 }
 .header{
 

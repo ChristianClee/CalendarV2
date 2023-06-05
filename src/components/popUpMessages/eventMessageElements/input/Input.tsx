@@ -6,7 +6,7 @@ import {
   checkDays,
   checkHours,
   checkMinutes,
-} from '../../../../redux/slices/dateSlice'
+} from '../../../../redux/slices/date2Slice'
 
 type ChangeEvent = React.ChangeEvent<HTMLInputElement>
 type InputProps = {

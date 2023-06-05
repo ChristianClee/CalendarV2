@@ -1,29 +1,29 @@
 import React, { useEffect } from 'react';
-import { useGetDay } from '../../../ulilits/time'
+// import { useGetDay } from '../../../ulilits/time'
 import Input from './input/Input'
 import { useSelector, useDispatch } from 'react-redux';
-import { selectDate } from '../../../redux/slices/dateSlice'
-import {
-  saveYears,
-  saveMonths,
-  saveDays,
-  saveHours,
-  saveMinutes,
-} from '../../../redux/slices/dateSlice'
+// import { selectDate } from '../../../redux/slices/date2Slice'
+// import {
+//   saveYears,
+//   saveMonths,
+//   saveDays,
+//   saveHours,
+//   saveMinutes,
+// } from '../../../redux/slices/date2Slice'
 
 
 
 const Form: React.FC = () => {
   const dispatch = useDispatch()
-  const { year, month, day } = useGetDay()
-  const { validDate } = useSelector(selectDate)
-  const {
-    errorYears,
-    errorMonths,
-    errorDays,
-    errorHours,
-    errorMinutes
-  } = validDate
+  // const { year, month, day } = useGetDay()
+  // const { validDate } = useSelector(selectDate)
+  // const {
+  //   errorYears,
+  //   errorMonths,
+  //   errorDays,
+  //   errorHours,
+  //   errorMinutes
+  // } = validDate
 
   // useEffect(() => { 
   //   dispatch(saveYears())
@@ -43,7 +43,7 @@ const Form: React.FC = () => {
     <div
       className='eventMessageComponent-form'
     >
-      <Input limit={4} valueText={year} saveValue={saveYears} errorStatus={errorYears} />
+      {/* <Input limit={4} valueText={year} saveValue={saveYears} errorStatus={errorYears} />
       <p> . </p>
       <Input limit={2} valueText={month} saveValue={saveMonths} errorStatus={errorMonths} />
       <p> . </p>
@@ -51,7 +51,7 @@ const Form: React.FC = () => {
 
       <Input limit={2} valueText={""} saveValue={saveHours} errorStatus={errorHours} />
       <p> : </p>
-      <Input limit={2} valueText={""} saveValue={saveMinutes} errorStatus={errorMinutes} />
+      <Input limit={2} valueText={""} saveValue={saveMinutes} errorStatus={errorMinutes} /> */}
     </div>
   );
 }

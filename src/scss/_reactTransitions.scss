@@ -184,7 +184,7 @@
 // ===============================================
 // buttonsDelete
 .buttonsDelete-enter {
-  animation: show-messageButtons 800ms forwards;
+  animation: show-messageButtons 1100ms forwards;
 }
 .buttonsDelete-enter-active {
 }
@@ -195,10 +195,10 @@
 }
 @keyframes show-messageButtons {
   0% {
-    transform: translateY(200px);
+    transform: translateY(1200px);
   }
-  30% {
-    transform: translateY(250px);
+  60% {
+    transform: translateY(1200px);
   }
   80% {
     transform: translateY(-20px);
@@ -218,6 +218,23 @@
     transform: translateY(-40px);
   }
   100% {
-    transform: translateY(120px);
+    transform: translateY(1200px);
   }
+}
+// =============================================
+// newMonthMessage
+.newMonthMessage-enter {
+  animation: show-newMonthMessage 400ms forwards;
+}
+.newMonthMessage-exit {
+  opacity:1
+}
+.newMonthMessage-exit-active {
+  opacity: 0;
+  transition: opacity 400ms;
+}
+@keyframes show-newMonthMessage{
+  0%{opacity: 0}
+  50%{opacity: 0}
+  100%{opacity: 1}
 }

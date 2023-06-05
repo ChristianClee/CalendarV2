@@ -1,12 +1,12 @@
 import React from 'react';
-import { useGetDayTime } from '../../../ulilits/time';
+// import { useGetDayTime } from '../../../ulilits/time';
 
 const Text: React.FC = () => {
 
-  const dayTime = useGetDayTime()
+  // const dayTime = useGetDayTime()
   return (
     <div className='eventMessageComponent-text'>
-      {dayTime}
+      {/* {dayTime} */} 11
     </div>
   );
 }

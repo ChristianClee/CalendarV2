@@ -30,8 +30,7 @@ const Grid: React.FC = () => {
         <div></div>
         <div></div>
         <div></div>
-      </div>
-      <div className="greed__vertical">
+        </div><div className="greed__vertical">
         <div></div>
         <div></div>
         <div></div>

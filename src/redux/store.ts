@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import dateReducer from './slices/dateSlice'
+import dataReduser from './slices/dateSlice'
 import popUpReducer from './slices/popUpSlice'
 // import validReducer from './slices/validSlice'
 
 export const store = configureStore({
   reducer: {
-    date: dateReducer,
     popUp: popUpReducer,
+    date: dataReduser,
     // valid: validReducer,
   },
 })
