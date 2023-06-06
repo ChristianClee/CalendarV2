@@ -9,24 +9,28 @@ export class Scroll {
   
 
   constructor(elemRef: { current: HTMLDivElement }, asideBlokWidth:number) {
-    this.elemRef = elemRef
+    this.elemRef = Object.assign({}, elemRef)
+    // console.log(this.elemRef === elemRef)
     this.asideBlokWidth = asideBlokWidth
     this.clientWidth = this._getClientWidth()
     this.scrollLeft = this._getScrollLeft()
     this.scrollWidth = this._getScrollWidth()
   }
   
-  isTouchRightSide():boolean {
+  isTouchRightSide(): boolean {
+    
     return this.scrollLeft > this.scrollWidth - 1
   }
-  isTouchleftSide():boolean{
+  isTouchleftSide(): boolean{
+    // console.log("sd", this.scrollWidth)
     return this.scrollLeft < 1
   }
   goToStartScroll(): void{
+    
     this.elemRef.current.scrollLeft = this.asideBlokWidth 
   }
   goToFinishScroll(): void{
-    // console.log(this.elemRef)
+    // console.log(this.scrollWidth)
     this.elemRef.current.scrollLeft = this.scrollWidth - this.asideBlokWidth
   }
 
